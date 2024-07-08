@@ -2,6 +2,7 @@
 import express from 'express'
 import exitHook from 'async-exit-hook'
 import { CLOSE_DB, CONNECT_DB } from '~/config/mongodb'
+import { APIs_V1 } from './routes/v1'
 
 const START_SERVER = () => {
   const app = express()
@@ -9,9 +10,7 @@ const START_SERVER = () => {
   const hostname = 'localhost'
   const port = 8017
 
-  app.get('/', (req, res) => {
-    res.end('<h1>Hello World!</h1><hr>')
-  })
+  app.use('/v1', APIs_V1)
 
   app.listen(port, hostname, () => {
     // eslint-disable-next-line no-console
