@@ -3,6 +3,7 @@ import express from 'express'
 import exitHook from 'async-exit-hook'
 import { CLOSE_DB, CONNECT_DB } from '~/config/mongodb'
 import { APIs_V1 } from './routes/v1'
+import { errorHandlingMiddleware } from './middlewares/errorHandlingMiddleware'
 
 const START_SERVER = () => {
   const app = express()
@@ -10,9 +11,14 @@ const START_SERVER = () => {
   const hostname = 'localhost'
   const port = 8017
 
+  // Enable req.body json data
   app.use(express.json())
 
+  // Use APIs V1
   app.use('/v1', APIs_V1)
+
+  // Middleware xử lý lỗi tập trung
+  app.use(errorHandlingMiddleware)
 
   app.listen(port, hostname, () => {
     // eslint-disable-next-line no-console
