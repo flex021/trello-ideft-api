@@ -1,5 +1,7 @@
 /* eslint-disable no-console */
 import express from 'express'
+import cors from 'cors'
+import { corsOptions } from '~/config/cors'
 import exitHook from 'async-exit-hook'
 import { CLOSE_DB, CONNECT_DB } from '~/config/mongodb'
 import { APIs_V1 } from './routes/v1'
@@ -7,6 +9,8 @@ import { errorHandlingMiddleware } from './middlewares/errorHandlingMiddleware'
 
 const START_SERVER = () => {
   const app = express()
+
+  app.use(cors(corsOptions))
 
   const hostname = 'localhost'
   const port = 8017
