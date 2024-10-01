@@ -6,6 +6,7 @@ import exitHook from 'async-exit-hook'
 import { CLOSE_DB, CONNECT_DB } from '~/config/mongodb'
 import { APIs_V1 } from './routes/v1'
 import { errorHandlingMiddleware } from './middlewares/errorHandlingMiddleware'
+import { env } from './config/environment'
 
 const START_SERVER = () => {
   const app = express()
@@ -24,10 +25,15 @@ const START_SERVER = () => {
   // Middleware xử lý lỗi tập trung
   app.use(errorHandlingMiddleware)
 
-  app.listen(port, hostname, () => {
-    // eslint-disable-next-line no-console
-    console.log(`3. Hello Thong, I am running at ${ hostname }:${ port }/`)
-  })
+  if (env.BUILD_MODE === 'production') {
+    app.listen(process.env.port, () => {
+      console.log(`3. LProduction: Hello Thong, I am running at ${ hostname }:${ port }/`)
+    })
+  } else {
+    app.listen(env.LOCAL_DEV_APP_PORT, env.LOCAL_DEV_APP_HOST, () => {
+      console.log(`3. Local DEV: Hello Thong, I am running at ${ env.LOCAL_DEV_APP_HOST }:${ env.LOCAL_DEV_APP_PORT }/`)
+    })
+  }
 
   exitHook(() => {
     console.log('4. close nè')
