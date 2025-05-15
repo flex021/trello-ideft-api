@@ -7,30 +7,43 @@ import { CLOSE_DB, CONNECT_DB } from '~/config/mongodb'
 import { APIs_V1 } from './routes/v1'
 import { errorHandlingMiddleware } from './middlewares/errorHandlingMiddleware'
 import { env } from './config/environment'
+import cookieParser from 'cookie-parser'
+import SocketIo from 'socket.io'
+import http from 'http'
+import { inviteUserToBoardSocket } from './sockets/inviteUserToBoardSocket'
 
 const START_SERVER = () => {
   const app = express()
 
+  app.use((req, res, next) => {
+    res.set('Cache-Control', 'no-store')
+    next()
+  })
+
+  app.use(cookieParser())
+
   app.use(cors(corsOptions))
 
-  const hostname = 'localhost'
-  const port = 8017
 
-  // Enable req.body json data
   app.use(express.json())
 
-  // Use APIs V1
   app.use('/v1', APIs_V1)
 
-  // Middleware xử lý lỗi tập trung
   app.use(errorHandlingMiddleware)
 
+  const server = http.createServer(app)
+
+  const io = SocketIo(server, { cors: corsOptions })
+  io.on('connection', (socket) => {
+    inviteUserToBoardSocket(socket)
+  })
+
   if (env.BUILD_MODE === 'production') {
-    app.listen(process.env.PORT, () => {
+    server.listen(process.env.PORT, () => {
       console.log(`3. LProduction: Hello Thong, I am running at port:${ process.env.PORT }/`)
     })
   } else {
-    app.listen(env.LOCAL_DEV_APP_PORT, env.LOCAL_DEV_APP_HOST, () => {
+    server.listen(env.LOCAL_DEV_APP_PORT, env.LOCAL_DEV_APP_HOST, () => {
       console.log(`3. Local DEV: Hello Thong, I am running at ${ env.LOCAL_DEV_APP_HOST }:${ env.LOCAL_DEV_APP_PORT }/`)
     })
   }
@@ -56,10 +69,3 @@ const START_SERVER = () => {
   }
 })()
 
-// CONNECT_DB()
-//   .then(() => console.log('Connected to MongoDB Cloud Atlas!'))
-//   .then(() => START_SERVER())
-//   .catch(error => {
-//     console.error(error)
-//     process.exit(0)
-//   })
