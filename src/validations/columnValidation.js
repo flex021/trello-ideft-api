@@ -19,10 +19,7 @@ const createNew = async (req, res, next) => {
 }
 
 const update = async (req, res, next) => {
-  // không required() trong trường hợp update
   const correctConditon = Joi.object({
-    // nếu cần làm tính năng di chuyển column sang board khác mới xử dụng boardId
-    // boardId: Joi.string().pattern(OBJECT_ID_RULE).message(OBJECT_ID_RULE_MESSAGE),
     title: Joi.string().min(3).max(50).trim().strict(),
     cardOrderIds: Joi.array().items(
       Joi.string().pattern(OBJECT_ID_RULE).message(OBJECT_ID_RULE_MESSAGE)
@@ -30,8 +27,6 @@ const update = async (req, res, next) => {
   })
 
   try {
-    // abortEarly = false là để hiển thị ra đủ lỗi, tránh thiếu lỗi
-    // đối với trường hợp update, cho phép allowUnknown để không cần đẩy 1 số filed lên
     await correctConditon.validateAsync(req.body, {
       abortEarly: false,
       allowUnknown: true
@@ -40,7 +35,6 @@ const update = async (req, res, next) => {
     next()
   } catch (error) {
     next(new ApiError(StatusCodes.UNPROCESSABLE_ENTITY, new Error(error).message))
-    // res.status(StatusCodes.UNPROCESSABLE_ENTITY).json({ errors: new Error(error).message })
   }
 }
 

@@ -49,13 +49,10 @@ const deleteItem = async (columnId) => {
       throw new ApiError(StatusCodes.NOT_FOUND, 'Column not found!')
     }
 
-    //xóa column
     await columnModel.deleteOneById(columnId)
 
-    //xóa card thuộc cái column trên
     await cardModel.deleteManyByColumnId(columnId)
 
-    // xóa columnId trong mảng columnOrderIds của cái Board chứa nó
     await boardModel.pullColumnOrderIds(targetColumn)
 
     return { deleteResult: 'Column and its Cards deleted successfully' }
