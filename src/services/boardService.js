@@ -103,10 +103,32 @@ const getBoards = async (userId, page, itemsPerPage, queryFilters) => {
   }
 }
 
+const deleteItem = async (boardId) => {
+
+  try {
+    const targetBoard = await boardModel.findOneById(boardId)
+    if (!targetBoard) {
+      throw new ApiError(StatusCodes.NOT_FOUND, 'Board not found!')
+    }
+
+    await boardModel.deleteOneById(boardId)
+
+    await columnModel.deleteManyByBoardId(boardId)
+
+    await cardModel.deleteManyByColumnId(boardId)
+
+
+    return { deleteResult: 'Board and its Columns deleted successfully!' }
+  } catch (error) {
+    throw error
+  }
+}
+
 export const boardService = {
   createNew,
   getDetails,
   update,
   moveCardToDifferentColumn,
-  getBoards
+  getBoards,
+  deleteItem
 }
