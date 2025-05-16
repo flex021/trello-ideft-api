@@ -84,13 +84,13 @@ const login = async (reqBody) => {
 
     const accessToken = await JwtProvider.generateToken(
       userInfo,
-      env.ACCESS_TOKEN_SECRECT_SIGNATURE,
+      env.ACCESS_TOKEN_SECRET_SIGNATURE,
       env.ACCESS_TOKEN_LIFE
     )
 
     const refreshToken = await JwtProvider.generateToken(
       userInfo,
-      env.REFRESH_TOKEN_SECRECT_SIGNATURE,
+      env.REFRESH_TOKEN_SECRET_SIGNATURE,
       env.REFRESH_TOKEN_LIFE
     )
 
@@ -103,7 +103,7 @@ const login = async (reqBody) => {
 
 const refreshToken = async (clientRefreshToken) => {
   try {
-    const refreshTokenDecoded = await JwtProvider.verifyToken(clientRefreshToken, env.REFRESH_TOKEN_SECRECT_SIGNATURE)
+    const refreshTokenDecoded = await JwtProvider.verifyToken(clientRefreshToken, env.REFRESH_TOKEN_SECRET_SIGNATURE)
 
     const userInfo = {
       _id: refreshTokenDecoded._id,
@@ -112,7 +112,7 @@ const refreshToken = async (clientRefreshToken) => {
 
     const accessToken = await JwtProvider.generateToken(
       userInfo,
-      env.ACCESS_TOKEN_SECRECT_SIGNATURE,
+      env.ACCESS_TOKEN_SECRET_SIGNATURE,
       env.ACCESS_TOKEN_LIFE
     )
 
