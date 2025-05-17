@@ -10,7 +10,8 @@ import { JwtProvider } from '~/providers/JwtProvider'
 import { env } from '~/config/environment'
 import { CloudinaryProvider } from '~/providers/CloudinaryProvider'
 
-
+console.log('ENV from process.env:', process.env.ACCESS_TOKEN_SECRET_SIGNATURE);
+console.log('ENV from env object:', env.ACCESS_TOKEN_SECRET_SIGNATURE);
 const createNew = async (reqBody) => {
   try {
     const existUser = await userModel.findOneByEmail(reqBody.email)
@@ -77,7 +78,6 @@ const login = async (reqBody) => {
     if (!bcryptjs.compareSync(reqBody.password, existUser.password)) {
       throw new ApiError(StatusCodes.NOT_ACCEPTABLE, 'Your password is incorrect!')
     }
-
     const userInfo = {
       _id: existUser._id, email: existUser.email
     }

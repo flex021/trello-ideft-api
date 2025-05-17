@@ -10,7 +10,6 @@ const generateToken = async (userInfo, secretSignature, tokenLife) => {
   }
 }
 
-
 const verifyToken = async (token, secretSignature) => {
   try {
     return JWT.verify(token, secretSignature)
