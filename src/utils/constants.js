@@ -1,7 +1,7 @@
 import { env } from '~/config/environment'
 
 export const WHITELIST_DOMAINS = [
-  'trello-web-gamma-two.vercel.app'
+  'https://trello-web-eight-self.vercel.app'
 ]
 
 export const BOARD_TYPES = {
