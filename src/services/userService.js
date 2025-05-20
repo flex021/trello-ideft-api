@@ -10,8 +10,6 @@ import { JwtProvider } from '~/providers/JwtProvider'
 import { env } from '~/config/environment'
 import { CloudinaryProvider } from '~/providers/CloudinaryProvider'
 
-console.log('DEBUG CHECK - env.ACCESS_TOKEN_SECRET_SIGNATURE:', env.ACCESS_TOKEN_SECRET_SIGNATURE);
-console.log('DEBUG CHECK - process.env.ACCESS_TOKEN_SECRET_SIGNATURE:', process.env.ACCESS_TOKEN_SECRET_SIGNATURE);
 const createNew = async (reqBody) => {
   try {
     const existUser = await userModel.findOneByEmail(reqBody.email)
