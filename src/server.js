@@ -11,6 +11,7 @@ import cookieParser from 'cookie-parser'
 import SocketIo from 'socket.io'
 import http from 'http'
 import { inviteUserToBoardSocket } from './sockets/inviteUserToBoardSocket'
+import path from 'path'
 
 const START_SERVER = () => {
   const app = express()
@@ -28,6 +29,11 @@ const START_SERVER = () => {
   app.use(express.json())
 
   app.use('/v1', APIs_V1)
+
+  app.use(express.static(path.join(__dirname, 'dist')))
+  app.get('*', (req, res) => {
+    res.sendFile(path.join(__dirname, 'dist', 'index.html'))
+  })
 
   app.use(errorHandlingMiddleware)
 
