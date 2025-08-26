@@ -30,9 +30,13 @@ const START_SERVER = () => {
 
   app.use('/v1', APIs_V1)
 
-  app.use(express.static(path.join(__dirname, 'dist')))
+  // ==== SPA React Serve ====
+  const distPath = path.join(process.cwd(), 'dist')
+
+  app.use(express.static(distPath))
+
   app.get('*', (req, res) => {
-    res.sendFile(path.join(__dirname, 'dist', 'index.html'))
+    res.sendFile(path.join(distPath, 'index.html'))
   })
 
   app.use(errorHandlingMiddleware)
