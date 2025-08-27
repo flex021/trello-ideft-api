@@ -5,7 +5,7 @@
   "type": "module",
   "author": "Thong",
   "engines": {
-    "node": ">=18.17.0"
+    "node": ">=18.16.0"
   },
   "scripts": {
     "lint": "eslint src --ext js --report-unused-disable-directives --max-warnings 0",
