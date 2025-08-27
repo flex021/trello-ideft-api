@@ -1,17 +1,16 @@
 /* eslint-disable no-console */
 import express from 'express'
 import cors from 'cors'
-import { corsOptions } from './config/cors.js'
+import { corsOptions } from './config/cors'
 import exitHook from 'async-exit-hook'
-import { CLOSE_DB, CONNECT_DB } from './config/mongodb.js'
-import { APIs_V1 } from './routes/v1/index.js'
-import { errorHandlingMiddleware } from './middlewares/errorHandlingMiddleware.js'
-import { env } from './config/environment.js'
+import { CLOSE_DB, CONNECT_DB } from './config/mongodb'
+import { APIs_V1 } from './routes/v1'
+import { errorHandlingMiddleware } from './middlewares/errorHandlingMiddleware'
+import { env } from './config/environment'
 import cookieParser from 'cookie-parser'
 import SocketIo from 'socket.io'
 import http from 'http'
-import { inviteUserToBoardSocket } from './sockets/inviteUserToBoardSocket.js'
-import path from 'path'
+import { inviteUserToBoardSocket } from './sockets/inviteUserToBoardSocket'
 
 const START_SERVER = () => {
   const app = express()
