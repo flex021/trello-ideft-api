@@ -1,9 +1,9 @@
 /* eslint-disable no-console */
 import express from 'express'
 import cors from 'cors'
-import { corsOptions } from '~/config/cors'
+import { corsOptions } from './config/cors'
 import exitHook from 'async-exit-hook'
-import { CLOSE_DB, CONNECT_DB } from '~/config/mongodb'
+import { CLOSE_DB, CONNECT_DB } from './config/mongodb'
 import { APIs_V1 } from './routes/v1'
 import { errorHandlingMiddleware } from './middlewares/errorHandlingMiddleware'
 import { env } from './config/environment'
@@ -12,7 +12,6 @@ import SocketIo from 'socket.io'
 import http from 'http'
 import { inviteUserToBoardSocket } from './sockets/inviteUserToBoardSocket'
 import path from 'path'
-import { fileURLToPath } from 'url'
 
 const START_SERVER = () => {
   const app = express()
