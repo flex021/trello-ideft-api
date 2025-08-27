@@ -27,13 +27,7 @@ const START_SERVER = () => {
 
   app.use(express.json())
 
-  app.use(express.static(path.join(__dirname, '../dist')))
-
   app.use('/v1', APIs_V1)
-
-  app.get('*', (req, res) => {
-    res.sendFile(path.join(__dirname, '../dist', 'index.html'))
-  })
 
   app.use(errorHandlingMiddleware)
 
