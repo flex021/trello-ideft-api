@@ -1,4 +1,4 @@
-import { env } from '~/config/environment'
+import { env } from '../config/environment'
 
 export const WHITELIST_DOMAINS = [
   'https://trello-web-eight-self.vercel.app'
