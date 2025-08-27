@@ -12,6 +12,7 @@ import SocketIo from 'socket.io'
 import http from 'http'
 import { inviteUserToBoardSocket } from './sockets/inviteUserToBoardSocket'
 import path from 'path'
+import { fileURLToPath } from 'url'
 
 const START_SERVER = () => {
   const app = express()
@@ -25,18 +26,14 @@ const START_SERVER = () => {
 
   app.use(cors(corsOptions))
 
-
   app.use(express.json())
+
+  app.use(express.static(path.join(__dirname, '../dist')))
 
   app.use('/v1', APIs_V1)
 
-  // ==== SPA React Serve ====
-  const distPath = path.join(process.cwd(), 'dist')
-
-  app.use(express.static(distPath))
-
   app.get('*', (req, res) => {
-    res.sendFile(path.join(distPath, 'index.html'))
+    res.sendFile(path.join(__dirname, '../dist', 'index.html'))
   })
 
   app.use(errorHandlingMiddleware)
