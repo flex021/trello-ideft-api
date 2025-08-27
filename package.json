@@ -2,6 +2,7 @@
   "name": "nodejs-expressjs-mongodb-base-project",
   "private": true,
   "version": "1.0.0",
+  "type": "module",
   "author": "Thong",
   "engines": {
     "node": "18.16.0"
