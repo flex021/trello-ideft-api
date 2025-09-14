@@ -63,17 +63,14 @@ const update = async (boardId, reqBody) => {
 const moveCardToDifferentColumn = async (reqBody) => {
 
   try {
-  // B1: Cập nhật mảng cardOrderIds của Column ban đầu chứa nó (Hiểu bản chất là xóa cái _id của Card ra khỏi mảng)
     await columnModel.update(reqBody.prevColumnId, {
       cardOrderIds: reqBody.prevCardOrderIds,
       updateAt: Date.now()
     })
-    // B2: Cập nhật mảng cardOrderIds của Column tiếp theo (thêm _id vào Card của mảng)
     await columnModel.update(reqBody.nextColumnId, {
       cardOrderIds: reqBody.nextCardOrderIds,
       updateAt: Date.now()
     })
-    // B3: Cập nhật lại trường ColumnId mới của cái Card đã kéo
     await cardModel.update(reqBody.currentCardId, {
       columnId: reqBody.nextColumnId
     })
@@ -87,7 +84,7 @@ const moveCardToDifferentColumn = async (reqBody) => {
 const getBoards = async (userId, page, itemsPerPage, queryFilters) => {
 
   try {
-    // nếu không tồn tại page hoặc itemsPerPage từ phía FE thì BE sẽ cần phải luôn gán giá trị mặc định
+
     if (!page) page = DEFAULT_PAGE
     if (!itemsPerPage) itemsPerPage = DEFAULT_ITEMS_PER_PAGE
 
