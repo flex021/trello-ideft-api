@@ -59,7 +59,6 @@ const START_SERVER = () => {
   })
 }
 
-// chỉ khi kết nối database thành công thì mới start server back-end lên
 (async () => {
   try {
     console.log('1. connecting to MongoDB Cloud Atlas')
